@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from typing import List
-from openai import OpenAI
+import os
 
 from core.parser import StatementParser
 from core.math_utils import FinancialEngine
@@ -10,7 +10,6 @@ from agents.portfolio_xray import PortfolioXRay
 from agents.health_score import MoneyHealthScore
 from agents.fire_planner import FIREPlanner
 import shutil
-import os
 
 router = APIRouter()
 
@@ -23,11 +22,21 @@ except Exception as e:
 
 engine = FinancialEngine()
 
-try:
-    openai_client = OpenAI(api_key=Config.OPENAI_KEY) if Config.OPENAI_KEY else None
-except Exception as e:
-    print(f"Warning: OpenAI client initialization failed: {e}")
-    openai_client = None
+# Initialize OpenAI client lazily
+openai_client = None
+def get_openai_client():
+    global openai_client
+    if openai_client is None:
+        try:
+            from openai import OpenAI
+            if Config.OPENAI_KEY:
+                openai_client = OpenAI(api_key=Config.OPENAI_KEY)
+                print("✓ OpenAI client initialized successfully")
+            else:
+                print("Warning: OPENAI_API_KEY not set in environment")
+        except Exception as e:
+            print(f"Warning: OpenAI client initialization failed: {e}")
+    return openai_client
 
 AGENT_SYSTEM_PROMPT = (
     "You are Lakshya — an Indian personal finance mentor. "
@@ -125,7 +134,8 @@ async def project_fire(params: dict):
 @router.post("/mentor-chat")
 async def mentor_chat(payload: AgentChatRequest):
     """Connect the frontend chatbot to the Lakshya OpenAI mentor."""
-    if not Config.OPENAI_KEY or not openai_client:
+    client = get_openai_client()
+    if not Config.OPENAI_KEY or not client:
         raise HTTPException(status_code=500, detail="OpenAI API key is not configured or client failed to initialize.")
 
     history = []
@@ -143,13 +153,13 @@ async def mentor_chat(payload: AgentChatRequest):
     request_messages.extend(history[-8:])
 
     try:
-        response = openai_client.responses.create(
-            model="gpt-4.1-mini",
-            input=request_messages,
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=request_messages,
             temperature=0.6,
-            max_output_tokens=600,
+            max_tokens=600,
         )
-        reply_text = _extract_response_text(response)
+        reply_text = response.choices[0].message.content if response.choices else ""
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Agent error: {exc}") from exc
 
