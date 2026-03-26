@@ -11,6 +11,10 @@ from agents.health_score import MoneyHealthScore
 from agents.fire_planner import FIREPlanner
 import shutil
 
+# Debug: Print Config values
+print(f"[ROUTES-INIT] Config.OPENAI_KEY: {Config.OPENAI_KEY[:30] if Config.OPENAI_KEY else 'NONE'}...")
+print(f"[ROUTES-INIT] os.getenv('OPENAI_API_KEY'): {os.getenv('OPENAI_API_KEY', 'NOT SET')[:30]}...")
+
 router = APIRouter()
 
 # Initialize global tools
@@ -26,16 +30,20 @@ engine = FinancialEngine()
 openai_client = None
 def get_openai_client():
     global openai_client
-    if openai_client is None:
+    if openai_client is None and Config.OPENAI_KEY:
         try:
+            import os
+            # Set API key in environment for OpenAI to pick up
+            os.environ['OPENAI_API_KEY'] = Config.OPENAI_KEY
             from openai import OpenAI
-            if Config.OPENAI_KEY:
-                openai_client = OpenAI(api_key=Config.OPENAI_KEY)
-                print("✓ OpenAI client initialized successfully")
-            else:
-                print("Warning: OPENAI_API_KEY not set in environment")
+            print(f"[ROUTES] Creating OpenAI client from env...")
+            # Initialize without passing api_key - let it read from environment
+            openai_client = OpenAI()
+            print("✓ [ROUTES] OpenAI client initialized successfully")
         except Exception as e:
-            print(f"Warning: OpenAI client initialization failed: {e}")
+            print(f"[ROUTES] Error creating OpenAI client: {e}")
+            import traceback
+            traceback.print_exc()
     return openai_client
 
 AGENT_SYSTEM_PROMPT = (
@@ -134,8 +142,11 @@ async def project_fire(params: dict):
 @router.post("/mentor-chat")
 async def mentor_chat(payload: AgentChatRequest):
     """Connect the frontend chatbot to the Lakshya OpenAI mentor."""
+    print(f"[MENTOR-CHAT] Called. Config.OPENAI_KEY: {Config.OPENAI_KEY[:30] if Config.OPENAI_KEY else 'NONE'}...")
     client = get_openai_client()
+    print(f"[MENTOR-CHAT] Client object: {client}")
     if not Config.OPENAI_KEY or not client:
+        print(f"[MENTOR-CHAT] ERROR - Config.OPENAI_KEY={bool(Config.OPENAI_KEY)}, client={client}")
         raise HTTPException(status_code=500, detail="OpenAI API key is not configured or client failed to initialize.")
 
     history = []
