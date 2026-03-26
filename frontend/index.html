@@ -325,6 +325,112 @@
   .action-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
   .action-arrow { margin-top: auto; color: var(--gold); font-size: 1.1rem; }
 
+  /* ── MENTOR CHAT ── */
+  .mentor-chat-card {
+    margin-top: 48px; padding: 28px; border-radius: 24px;
+    background: radial-gradient(circle at top right, rgba(201,150,59,0.08), rgba(13,13,13,0.95));
+    border: 1px solid var(--border);
+    box-shadow: 0 35px 120px rgba(0,0,0,0.55);
+  }
+  .mentor-chat-header {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .mentor-chat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; color: var(--white); font-weight: 500;
+  }
+  .mentor-chat-tagline { font-size: 0.82rem; color: rgba(240,232,216,0.7); }
+  .mentor-chat-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase;
+    border: 1px solid var(--border);
+  }
+  .mentor-chat-status .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    box-shadow: 0 0 10px rgba(201,150,59,0.6);
+  }
+  .mentor-chat-status.online { border-color: rgba(74,222,128,0.35); color: #4ade80; }
+  .mentor-chat-status.online .dot { background: #4ade80; }
+  .mentor-chat-status.waiting { border-color: rgba(201,150,59,0.5); color: var(--gold-light); }
+  .mentor-chat-status.waiting .dot { background: var(--gold-light); box-shadow: 0 0 12px rgba(201,150,59,0.6); }
+  .mentor-chat-status.error { border-color: rgba(248,113,113,0.4); color: #f87171; }
+  .mentor-chat-status.error .dot { background: #f87171; box-shadow: 0 0 12px rgba(248,113,113,0.6); }
+
+  .mentor-quick-prompts {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+  }
+  .mentor-quick-btn {
+    border: 1px solid rgba(201,150,59,0.25);
+    border-radius: 999px; padding: 8px 16px;
+    background: rgba(255,255,255,0.02);
+    color: rgba(240,232,216,0.85);
+    font-size: 0.78rem; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .mentor-quick-btn:hover { border-color: var(--gold-light); color: var(--gold-light); transform: translateY(-1px); }
+
+  .mentor-chat-log {
+    border: 1px solid rgba(201,150,59,0.15);
+    border-radius: 18px;
+    padding: 18px; min-height: 240px; max-height: 360px; overflow-y: auto;
+    background: rgba(0,0,0,0.25);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .mentor-bubble {
+    padding: 12px 16px; border-radius: 16px; font-size: 0.9rem;
+    line-height: 1.6; width: fit-content; max-width: 84%;
+    position: relative;
+  }
+  .mentor-bubble.user {
+    margin-left: auto; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--black); border-top-right-radius: 4px;
+  }
+  .mentor-bubble.assistant {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,150,59,0.2);
+    color: var(--text); border-top-left-radius: 4px;
+  }
+  .mentor-typing {
+    display: flex; align-items: center; gap: 4px;
+    color: var(--muted); font-size: 0.8rem; padding: 6px 10px;
+  }
+  .mentor-typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); display: inline-block; animation: blink 1s infinite ease-in-out;
+  }
+  .mentor-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .mentor-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes blink { 0%, 80% { opacity: 0.2; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+
+  .mentor-chat-input {
+    margin-top: 18px; display: flex; gap: 12px; align-items: flex-end;
+  }
+  .mentor-chat-input textarea {
+    flex: 1; min-height: 64px; max-height: 160px;
+    border-radius: 16px; border: 1px solid var(--border);
+    background: rgba(0,0,0,0.35);
+    color: var(--text); padding: 14px 16px; font-size: 0.92rem;
+    resize: vertical; outline: none;
+  }
+  .mentor-chat-input textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,150,59,0.15); }
+  .mentor-chat-input .chat-send {
+    flex-shrink: 0; padding: 14px 24px;
+  }
+  .mentor-chat-hint {
+    margin-top: 12px; font-size: 0.78rem; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  @media (max-width: 720px) {
+    .mentor-chat-card { padding: 20px; margin-top: 32px; }
+    .mentor-chat-log { max-height: 260px; }
+    .mentor-chat-input { flex-direction: column; }
+    .mentor-chat-input .chat-send { width: 100%; }
+    .mentor-bubble { max-width: 100%; }
+  }
+
   /* ── X-RAY PAGE ── */
   .page-wrap { padding: 32px 24px; max-width: 800px; margin: 0 auto; }
   .page-title {
@@ -1010,6 +1116,37 @@
         <div class="action-arrow">→</div>
       </div>
     </div>
+
+    <div class="mentor-chat-card" id="mentorChatCard">
+      <div class="mentor-chat-header">
+        <div>
+          <div class="mentor-chat-title">Lakshya Money Mentor</div>
+          <div class="mentor-chat-tagline">Grounded answers powered by the OpenAI agent</div>
+        </div>
+        <div class="mentor-chat-status online" id="mentorChatStatus">
+          <div class="dot"></div>
+          <span>Live</span>
+        </div>
+      </div>
+
+      <div class="mentor-quick-prompts">
+        <button class="mentor-quick-btn" onclick="sendQuickPrompt('Where am I leaking fees in my SIPs?')">Spot fee leaks</button>
+        <button class="mentor-quick-btn" onclick="sendQuickPrompt('How much emergency fund do I need for a family of three?')">Build emergency fund</button>
+        <button class="mentor-quick-btn" onclick="sendQuickPrompt('Can you check if my equity debt mix is balanced for age 32?')">Check allocation</button>
+        <button class="mentor-quick-btn" onclick="sendQuickPrompt('Give me a plan to retire at 50 with ₹4 crores.')">Plan FIRE</button>
+      </div>
+
+      <div class="mentor-chat-log" id="mentorChatLog"></div>
+
+      <div class="mentor-chat-input">
+        <textarea id="mentorChatInput" placeholder="Ask anything about your money, SIPs, tax or FIRE..." rows="2"></textarea>
+        <button class="btn-gold chat-send" id="mentorSendBtn" onclick="sendMentorMessage()">Ask Lakshya →</button>
+      </div>
+
+      <div class="mentor-chat-hint" id="mentorChatHint">
+        Connected to OpenAI GPT-4.1 mini · replies stay on your device
+      </div>
+    </div>
   </div>
 
   <!-- X-RAY PAGE -->
@@ -1425,6 +1562,12 @@
   const STORAGE_KEY = 'lakshya_user_data';
   const API_BASE = 'http://localhost:8000/api/v1';
   let userData = null;
+  const mentorChatState = {
+    history: [],
+    isSending: false,
+    initialized: false,
+    typingEl: null
+  };
 
   window.addEventListener('DOMContentLoaded', () => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -1432,42 +1575,173 @@
       userData = JSON.parse(saved);
       launchApp();
     }
+    initMentorChat();
   });
 
   async function doLogin() {
-    const email = document.getElementById('signupEmail').value;
-    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value.trim();
+    const nameInput = document.getElementById('signupName').value.trim();
 
     if (!email) {
-        alert("Please enter an email!");
-        return;
+      toast('Enter your email to sign in');
+      return;
     }
 
     try {
-        const response = await fetch('http://localhost:8000/api/v1/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, name: name })
-        });
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name: nameInput || undefined })
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result.detail || 'Unable to login right now.');
+      }
 
-        const result = await response.json();
+      if (result.access_token) {
+        localStorage.setItem('lakshya_token', result.access_token);
+      }
+      const resolvedName = result.user || nameInput || email.split('@')[0];
+      localStorage.setItem('user_name', resolvedName);
 
-        if (response.ok) {
-            // 1. Save the JWT Token safely
-            localStorage.setItem('lakshya_token', result.access_token);
-            localStorage.setItem('user_name', result.user);
-
-            // 2. Hide Landing, Show Dashboard
-            document.getElementById('page-landing').classList.remove('active');
-            // Use the ID we found earlier for the dashboard/portfolio
-            document.getElementById('page-portfolio').classList.add('active'); 
-            
-            console.log("Login Successful! Token stored.");
-        }
+      userData = {
+        name: resolvedName,
+        email,
+        createdAt: new Date().toISOString(),
+        profileData: userData?.profileData || { age: null, income: null, monthlyInvestment: null, city: null },
+        portfolioData: userData?.portfolioData || null,
+        healthScore: userData?.healthScore ?? null,
+        fireProjection: userData?.fireProjection || null
+      };
+      save();
+      launchApp();
+      toast(`Welcome back, ${resolvedName.split(' ')[0]}!`, true);
     } catch (error) {
-        console.error("Login failed:", error);
+      console.error('Login failed:', error);
+      toast(`Login failed: ${error.message}`);
     }
-}
+  }
+
+  /* ── MENTOR CHAT ── */
+  function initMentorChat() {
+    if (mentorChatState.initialized) return;
+    const log = document.getElementById('mentorChatLog');
+    const input = document.getElementById('mentorChatInput');
+    if (!log || !input) return;
+    mentorChatState.initialized = true;
+    addMentorMessage('assistant', 'Namaste! I am Lakshya, your AI money mentor. Ask me anything about SIPs, FIRE, tax planning or insurance.');
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMentorMessage();
+      }
+    });
+    setMentorStatus('Live', 'online');
+    setMentorHint('Powered by GPT-4.1 mini · Responses tailored for Indian investors');
+  }
+
+  function setMentorStatus(label, variant) {
+    const statusEl = document.getElementById('mentorChatStatus');
+    if (!statusEl) return;
+    statusEl.classList.remove('online', 'waiting', 'error');
+    statusEl.classList.add(variant || 'online');
+    const textEl = statusEl.querySelector('span');
+    if (textEl) textEl.textContent = label;
+  }
+
+  function setMentorHint(text) {
+    const hint = document.getElementById('mentorChatHint');
+    if (hint) hint.textContent = text;
+  }
+
+  function addMentorMessage(role, text) {
+    const log = document.getElementById('mentorChatLog');
+    if (!log) return;
+    const bubble = document.createElement('div');
+    bubble.className = `mentor-bubble ${role}`;
+    const lines = (text || '').split('\n');
+    lines.forEach((line, idx) => {
+      bubble.appendChild(document.createTextNode(line));
+      if (idx < lines.length - 1) {
+        bubble.appendChild(document.createElement('br'));
+      }
+    });
+    log.appendChild(bubble);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function setMentorTyping(isVisible) {
+    const log = document.getElementById('mentorChatLog');
+    if (!log) return;
+    if (isVisible) {
+      if (mentorChatState.typingEl) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'mentor-bubble assistant';
+      const typing = document.createElement('div');
+      typing.className = 'mentor-typing';
+      for (let i = 0; i < 3; i += 1) {
+        const dot = document.createElement('span');
+        typing.appendChild(dot);
+      }
+      wrap.appendChild(typing);
+      log.appendChild(wrap);
+      log.scrollTop = log.scrollHeight;
+      mentorChatState.typingEl = wrap;
+    } else if (mentorChatState.typingEl) {
+      mentorChatState.typingEl.remove();
+      mentorChatState.typingEl = null;
+    }
+  }
+
+  async function sendMentorMessage() {
+    const input = document.getElementById('mentorChatInput');
+    if (!input || mentorChatState.isSending) return;
+    const message = input.value.trim();
+    if (!message) {
+      toast('Ask a question before sending');
+      return;
+    }
+
+    addMentorMessage('user', message);
+    mentorChatState.history.push({ role: 'user', content: message });
+    input.value = '';
+    mentorChatState.isSending = true;
+    setMentorTyping(true);
+    setMentorStatus('Thinking…', 'waiting');
+    setMentorHint('Talking to Lakshya on OpenAI');
+
+    try {
+      const payload = { messages: mentorChatState.history.slice(-8) };
+      const response = await fetch(`${API_BASE}/mentor-chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.detail || 'Unable to reach the mentor right now.');
+      }
+      const reply = (data.reply || 'I am here whenever you need me.').trim();
+      addMentorMessage('assistant', reply);
+      mentorChatState.history.push({ role: 'assistant', content: reply });
+      setMentorStatus('Live', 'online');
+      setMentorHint('Response generated with GPT-4.1 mini');
+    } catch (err) {
+      addMentorMessage('assistant', `Sorry, I hit a snag: ${err.message}`);
+      setMentorStatus('Retry', 'error');
+      setMentorHint('Check your backend logs or OpenAI key.');
+    } finally {
+      setMentorTyping(false);
+      mentorChatState.isSending = false;
+    }
+  }
+
+  function sendQuickPrompt(promptText) {
+    const input = document.getElementById('mentorChatInput');
+    if (!input) return;
+    input.value = promptText;
+    sendMentorMessage();
+  }
   function showLanding() { 
     document.getElementById('page-landing').style.display = 'block'; 
     document.getElementById('page-app').style.display = 'none'; 
