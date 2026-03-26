@@ -1,3 +1,9 @@
+# Load environment immediately, before any other imports
+import os
+from dotenv import load_dotenv
+load_dotenv()
+print(f"[MAIN] .env loaded. OPENAI_API_KEY exists: {bool(os.getenv('OPENAI_API_KEY'))}")
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import router as api_router
@@ -33,4 +39,4 @@ async def root():
 # --- 3. EXECUTION ---
 if __name__ == "__main__":
     # We use "main:app" string format to allow for the 'reload' feature during coding
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)

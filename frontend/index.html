@@ -325,6 +325,223 @@
   .action-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
   .action-arrow { margin-top: auto; color: var(--gold); font-size: 1.1rem; }
 
+  /* ── DASHBOARD MENTOR CHAT CARD ── */
+  .mentor-chat-card {
+    margin-top: 48px; padding: 28px; border-radius: 24px;
+    background: radial-gradient(circle at top right, rgba(201,150,59,0.08), rgba(13,13,13,0.95));
+    border: 1px solid var(--border);
+    box-shadow: 0 35px 120px rgba(0,0,0,0.55);
+  }
+  .mentor-chat-header {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .mentor-chat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; color: var(--white); font-weight: 500;
+  }
+  .mentor-chat-tagline { font-size: 0.82rem; color: rgba(240,232,216,0.7); }
+  .mentor-chat-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase;
+    border: 1px solid var(--border);
+  }
+  .mentor-chat-status .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    box-shadow: 0 0 10px rgba(201,150,59,0.6);
+  }
+  .mentor-chat-status.online { border-color: rgba(74,222,128,0.35); color: #4ade80; }
+  .mentor-chat-status.online .dot { background: #4ade80; }
+  .mentor-chat-status.waiting { border-color: rgba(201,150,59,0.5); color: var(--gold-light); }
+  .mentor-chat-status.waiting .dot { background: var(--gold-light); box-shadow: 0 0 12px rgba(201,150,59,0.6); }
+  .mentor-chat-status.error { border-color: rgba(248,113,113,0.4); color: #f87171; }
+  .mentor-chat-status.error .dot { background: #f87171; box-shadow: 0 0 12px rgba(248,113,113,0.6); }
+
+  .mentor-quick-prompts {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+  }
+  .mentor-quick-btn {
+    border: 1px solid rgba(201,150,59,0.25);
+    border-radius: 999px; padding: 8px 16px;
+    background: rgba(255,255,255,0.02);
+    color: rgba(240,232,216,0.85);
+    font-size: 0.78rem; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .mentor-quick-btn:hover { border-color: var(--gold-light); color: var(--gold-light); transform: translateY(-1px); }
+
+  .mentor-chat-log {
+    border: 1px solid rgba(201,150,59,0.15);
+    border-radius: 18px;
+    padding: 18px; min-height: 240px; max-height: 360px; overflow-y: auto;
+    background: rgba(0,0,0,0.25);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .mentor-bubble {
+    padding: 12px 16px; border-radius: 16px; font-size: 0.9rem;
+    line-height: 1.6; width: fit-content; max-width: 84%;
+    position: relative;
+  }
+  .mentor-bubble.user {
+    margin-left: auto; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--black); border-top-right-radius: 4px;
+  }
+  .mentor-bubble.assistant {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,150,59,0.2);
+    color: var(--text); border-top-left-radius: 4px;
+  }
+  .mentor-typing {
+    display: flex; align-items: center; gap: 4px;
+    color: var(--muted); font-size: 0.8rem; padding: 6px 10px;
+  }
+  .mentor-typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); display: inline-block; animation: blink 1s infinite ease-in-out;
+  }
+  .mentor-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .mentor-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes blink { 0%, 80% { opacity: 0.2; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+
+  .mentor-chat-input {
+    margin-top: 18px; display: flex; gap: 12px; align-items: flex-end;
+  }
+  .mentor-chat-input textarea {
+    flex: 1; min-height: 64px; max-height: 160px;
+    border-radius: 16px; border: 1px solid var(--border);
+    background: rgba(0,0,0,0.35);
+    color: var(--text); padding: 14px 16px; font-size: 0.92rem;
+    resize: vertical; outline: none;
+  }
+  .mentor-chat-input textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,150,59,0.15); }
+  .mentor-chat-input .chat-send {
+    flex-shrink: 0; padding: 14px 24px; min-width: 120px; white-space: nowrap;
+  }
+  .mentor-chat-hint {
+    margin-top: 12px; font-size: 0.78rem; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  @media (max-width: 720px) {
+    .mentor-chat-card { padding: 20px; margin-top: 32px; }
+    .mentor-chat-log { max-height: 260px; }
+    .mentor-chat-input { flex-direction: column; }
+    .mentor-chat-input .chat-send { width: 100%; }
+    .mentor-bubble { max-width: 100%; }
+  }
+
+  /* ── FLOATING MENTOR CHAT ── */
+  .mentor-floating-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 998;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none; cursor: pointer; box-shadow: 0 8px 32px rgba(201,150,59,0.3);
+    display: none; align-items: center; justify-content: center;
+    color: var(--black); font-size: 1.5rem;
+    transition: all 0.3s ease;
+  }
+  .mentor-floating-btn:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(201,150,59,0.4); }
+  .mentor-floating-btn svg { width: 28px; height: 28px; stroke-width: 1.5; }
+
+  .mentor-floating-widget {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    width: 420px; max-height: 680px; border-radius: 28px;
+    background: radial-gradient(circle at top right, rgba(201,150,59,0.08), rgba(13,13,13,0.98));
+    border: 1px solid var(--border); box-shadow: 0 35px 120px rgba(0,0,0,0.6);
+    display: none; flex-direction: column; opacity: 0; transform: scale(0.8) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mentor-floating-widget.open {
+    display: flex; opacity: 1; transform: scale(1) translateY(0);
+  }
+
+  .mentor-widget-header {
+    padding: 20px; border-bottom: 1px solid rgba(201,150,59,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+    border-radius: 28px 28px 0 0;
+  }
+  .mentor-widget-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--white); font-weight: 500;
+  }
+  .mentor-widget-close {
+    background: none; border: none; color: var(--muted);
+    font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    transition: color 0.2s;
+  }
+  .mentor-widget-close:hover { color: var(--gold-light); }
+
+  .mentor-chat-log {
+    flex: 1; overflow-y: auto; padding: 18px;
+    display: flex; flex-direction: column; gap: 12px;
+    background: rgba(0,0,0,0.25);
+  }
+  .mentor-bubble {
+    padding: 12px 16px; border-radius: 16px; font-size: 0.9rem;
+    line-height: 1.6; width: fit-content; max-width: 85%;
+    position: relative;
+  }
+  .mentor-bubble.user {
+    margin-left: auto; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--black); border-top-right-radius: 4px;
+  }
+  .mentor-bubble.assistant {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(201,150,59,0.2);
+    color: var(--text); border-top-left-radius: 4px;
+  }
+  .mentor-typing {
+    display: flex; align-items: center; gap: 4px;
+    color: var(--muted); font-size: 0.8rem; padding: 6px 10px;
+  }
+  .mentor-typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); animation: blink 1s infinite ease-in-out;
+  }
+  .mentor-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .mentor-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes blink { 0%, 80% { opacity: 0.2; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+
+  .mentor-chat-input {
+    padding: 16px; border-top: 1px solid rgba(201,150,59,0.15);
+    display: flex; gap: 12px; align-items: flex-end;
+  }
+  .mentor-chat-input textarea {
+    flex: 1; height: 44px; resize: none;
+    border-radius: 12px; border: 1px solid var(--border);
+    background: rgba(0,0,0,0.3); color: var(--text); padding: 10px 14px;
+    font-size: 0.9rem; font-family: 'DM Sans', sans-serif; outline: none;
+  }
+  .mentor-chat-input textarea:focus { border-color: var(--gold); }
+  .mentor-chat-input textarea::placeholder { color: rgba(240,232,216,0.5); }
+  .mentor-chat-input button {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none; color: var(--black); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .mentor-chat-input button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,150,59,0.3); }
+
+  .mentor-quick-prompts {
+    padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 8px;
+    border-top: 1px solid rgba(201,150,59,0.15);
+    background: rgba(0,0,0,0.15);
+  }
+  .mentor-quick-btn {
+    border: 1px solid rgba(201,150,59,0.25); border-radius: 999px;
+    padding: 6px 12px; background: rgba(255,255,255,0.02);
+    color: rgba(240,232,216,0.85); font-size: 0.75rem; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mentor-quick-btn:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .mentor-floating-widget { width: calc(100vw - 32px); bottom: 16px; right: 16px; max-height: 60vh; }
+    .mentor-floating-btn { bottom: 16px; right: 16px; width: 50px; height: 50px; }
+  }
+
   /* ── X-RAY PAGE ── */
   .page-wrap { padding: 32px 24px; max-width: 800px; margin: 0 auto; }
   .page-title {
@@ -838,6 +1055,16 @@
 </head>
 <body>
 
+<script>
+  // Prevent infinite loading - show content after 3 seconds regardless
+  setTimeout(() => {
+    console.log('Timeout: forcing content visibility');
+    // Make sure landing page is visible
+    const landing = document.getElementById('page-landing');
+    if (landing) landing.style.display = 'block';
+  }, 3000);
+</script>
+
 <!-- GLOW ORBS -->
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
@@ -1010,9 +1237,40 @@
         <div class="action-arrow">→</div>
       </div>
     </div>
+
+    <!-- DASHBOARD MENTOR CHAT CARD -->
+    <div class="mentor-chat-card" id="mentorChatCardDash">
+      <div class="mentor-chat-header">
+        <div>
+          <div class="mentor-chat-title">Lakshya Money Mentor</div>
+          <div class="mentor-chat-tagline">Grounded answers powered by the OpenAI agent</div>
+        </div>
+        <div class="mentor-chat-status online" id="mentorChatStatusDash">
+          <div class="dot"></div>
+          <span>Live</span>
+        </div>
+      </div>
+
+      <div class="mentor-quick-prompts">
+        <button class="mentor-quick-btn" onclick="sendQuickPromptDash('Where am I leaking fees in my SIPs?')">Spot fee leaks</button>
+        <button class="mentor-quick-btn" onclick="sendQuickPromptDash('How much emergency fund do I need for a family of three?')">Build emergency fund</button>
+        <button class="mentor-quick-btn" onclick="sendQuickPromptDash('Can you check if my equity debt mix is balanced for age 32?')">Check allocation</button>
+        <button class="mentor-quick-btn" onclick="sendQuickPromptDash('Give me a plan to retire at 50 with ₹4 crores.')">Plan FIRE</button>
+      </div>
+
+      <div class="mentor-chat-log" id="mentorChatLogDash"></div>
+
+      <div class="mentor-chat-input">
+        <textarea id="mentorChatInputDash" placeholder="Ask anything about your money, SIPs, tax or FIRE..." rows="2"></textarea>
+        <button class="btn-gold chat-send" id="mentorSendBtnDash" onclick="sendMentorMessageDash()">Ask Lakshya →</button>
+      </div>
+
+      <div class="mentor-chat-hint" id="mentorChatHintDash">
+        Connected to OpenAI GPT-4 mini · replies stay on your device
+      </div>
+    </div>
   </div>
 
-  <!-- X-RAY PAGE -->
   <div id="appXray" class="page-wrap" style="display:none">
     <h1 class="page-title">Portfolio <em>X-Ray</em></h1>
     <p class="page-sub">Upload your CAMS mutual fund statement (PDF) and we'll instantly tell you if you're overpaying in fees, holding overlapping funds, or missing out on better returns.</p>
@@ -1425,57 +1683,367 @@
   const STORAGE_KEY = 'lakshya_user_data';
   const API_BASE = 'http://localhost:8000/api/v1';
   let userData = null;
+  
+  // Dashboard mentor chat state
+  const mentorChatState_Dashboard = {
+    history: [],
+    isSending: false,
+    initialized: false,
+    typingEl: null
+  };
+
+  // Floating mentor chat state
+  const mentorChatState_Floating = {
+    history: [],
+    isSending: false,
+    initialized: false,
+    typingEl: null
+  };
+
+  // For backward compatibility
+  const mentorChatState = mentorChatState_Dashboard;
 
   window.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      userData = JSON.parse(saved);
-      launchApp();
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          userData = JSON.parse(saved);
+          launchApp();
+        } catch (e) {
+          console.warn('Corrupted localStorage, clearing and starting fresh');
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }
+      initMentorChatDash();
+    } catch (e) {
+      console.error('DOMContentLoaded error:', e);
     }
   });
 
   async function doLogin() {
-    const email = document.getElementById('signupEmail').value;
-    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value.trim();
+    const nameInput = document.getElementById('signupName').value.trim();
 
     if (!email) {
-        alert("Please enter an email!");
-        return;
+      toast('Enter your email to sign in');
+      return;
     }
 
     try {
-        const response = await fetch('http://localhost:8000/api/v1/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, name: name })
-        });
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name: nameInput || undefined })
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result.detail || 'Unable to login right now.');
+      }
 
-        const result = await response.json();
+      if (result.access_token) {
+        localStorage.setItem('lakshya_token', result.access_token);
+      }
+      const resolvedName = result.user || nameInput || email.split('@')[0];
+      localStorage.setItem('user_name', resolvedName);
 
-        if (response.ok) {
-            // 1. Save the JWT Token safely
-            localStorage.setItem('lakshya_token', result.access_token);
-            localStorage.setItem('user_name', result.user);
-
-            // 2. Hide Landing, Show Dashboard
-            document.getElementById('page-landing').classList.remove('active');
-            // Use the ID we found earlier for the dashboard/portfolio
-            document.getElementById('page-portfolio').classList.add('active'); 
-            
-            console.log("Login Successful! Token stored.");
-        }
+      userData = {
+        name: resolvedName,
+        email,
+        createdAt: new Date().toISOString(),
+        profileData: userData?.profileData || { age: null, income: null, monthlyInvestment: null, city: null },
+        portfolioData: userData?.portfolioData || null,
+        healthScore: userData?.healthScore ?? null,
+        fireProjection: userData?.fireProjection || null
+      };
+      save();
+      launchApp();
+      toast(`Welcome back, ${resolvedName.split(' ')[0]}!`, true);
     } catch (error) {
-        console.error("Login failed:", error);
+      console.error('Login failed:', error);
+      toast(`Login failed: ${error.message}`);
     }
-}
+  }
+
+  /* ── MENTOR CHAT ── */
+  /* ────── DASHBOARD MENTOR CHAT ────── */
+  function initMentorChatDash() {
+    if (mentorChatState_Dashboard.initialized) return;
+    const log = document.getElementById('mentorChatLogDash');
+    const input = document.getElementById('mentorChatInputDash');
+    if (!log || !input) {
+      console.warn('Mentor chat DOM elements not found yet, will retry');
+      return;
+    }
+    try {
+      mentorChatState_Dashboard.initialized = true;
+      addMentorMessageDash('assistant', 'Namaste! I am Lakshya, your AI money mentor. Ask me anything about SIPs, FIRE, tax planning or insurance.');
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          sendMentorMessageDash();
+        }
+      });
+    } catch (e) {
+      console.error('Error initializing mentor chat:', e);
+    }
+  }
+
+  function addMentorMessageDash(role, text) {
+    const log = document.getElementById('mentorChatLogDash');
+    if (!log) return;
+    const bubble = document.createElement('div');
+    bubble.className = `mentor-bubble ${role}`;
+    const lines = (text || '').split('\n');
+    lines.forEach((line, idx) => {
+      bubble.appendChild(document.createTextNode(line));
+      if (idx < lines.length - 1) {
+        bubble.appendChild(document.createElement('br'));
+      }
+    });
+    log.appendChild(bubble);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function setMentorTypingDash(isVisible) {
+    const log = document.getElementById('mentorChatLogDash');
+    if (!log) return;
+    if (isVisible) {
+      if (mentorChatState_Dashboard.typingEl) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'mentor-bubble assistant';
+      const typing = document.createElement('div');
+      typing.className = 'mentor-typing';
+      for (let i = 0; i < 3; i += 1) {
+        const dot = document.createElement('span');
+        typing.appendChild(dot);
+      }
+      wrap.appendChild(typing);
+      log.appendChild(wrap);
+      log.scrollTop = log.scrollHeight;
+      mentorChatState_Dashboard.typingEl = wrap;
+    } else if (mentorChatState_Dashboard.typingEl) {
+      mentorChatState_Dashboard.typingEl.remove();
+      mentorChatState_Dashboard.typingEl = null;
+    }
+  }
+
+  async function sendMentorMessageDash() {
+    const input = document.getElementById('mentorChatInputDash');
+    if (!input || mentorChatState_Dashboard.isSending) return;
+    const message = input.value.trim();
+    if (!message) {
+      toast('Ask a question before sending');
+      return;
+    }
+
+    addMentorMessageDash('user', message);
+    mentorChatState_Dashboard.history.push({ role: 'user', content: message });
+    input.value = '';
+    mentorChatState_Dashboard.isSending = true;
+    setMentorTypingDash(true);
+
+    try {
+      const payload = { messages: mentorChatState_Dashboard.history.slice(-8) };
+      const response = await fetch(`${API_BASE}/mentor-chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.detail || 'Unable to reach the mentor right now.');
+      }
+      const reply = (data.reply || 'I am here whenever you need me.').trim();
+      addMentorMessageDash('assistant', reply);
+      mentorChatState_Dashboard.history.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      addMentorMessageDash('assistant', `Sorry, I hit a snag: ${err.message}`);
+    } finally {
+      setMentorTypingDash(false);
+      mentorChatState_Dashboard.isSending = false;
+    }
+  }
+
+  function sendQuickPromptDash(promptText) {
+    const input = document.getElementById('mentorChatInputDash');
+    if (!input) return;
+    input.value = promptText;
+    sendMentorMessageDash();
+  }
+
+  /* ────── FLOATING MENTOR CHAT ────── */
+  function initMentorChatFloat() {
+    if (mentorChatState_Floating.initialized) return;
+    const log = document.getElementById('mentorChatLog');
+    const input = document.getElementById('mentorChatInput');
+    if (!log || !input) return;
+    mentorChatState_Floating.initialized = true;
+    addMentorMessageFloat('assistant', 'Namaste! I am Lakshya, your AI money mentor. Ask me anything about SIPs, FIRE, tax planning or insurance.');
+  }
+
+  function addMentorMessageFloat(role, text) {
+    const log = document.getElementById('mentorChatLog');
+    if (!log) return;
+    const bubble = document.createElement('div');
+    bubble.className = `mentor-bubble ${role}`;
+    const lines = (text || '').split('\n');
+    lines.forEach((line, idx) => {
+      bubble.appendChild(document.createTextNode(line));
+      if (idx < lines.length - 1) {
+        bubble.appendChild(document.createElement('br'));
+      }
+    });
+    log.appendChild(bubble);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function setMentorTypingFloat(isVisible) {
+    const log = document.getElementById('mentorChatLog');
+    if (!log) return;
+    if (isVisible) {
+      if (mentorChatState_Floating.typingEl) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'mentor-bubble assistant';
+      const typing = document.createElement('div');
+      typing.className = 'mentor-typing';
+      for (let i = 0; i < 3; i += 1) {
+        const dot = document.createElement('span');
+        typing.appendChild(dot);
+      }
+      wrap.appendChild(typing);
+      log.appendChild(wrap);
+      log.scrollTop = log.scrollHeight;
+      mentorChatState_Floating.typingEl = wrap;
+    } else if (mentorChatState_Floating.typingEl) {
+      mentorChatState_Floating.typingEl.remove();
+      mentorChatState_Floating.typingEl = null;
+    }
+  }
+
+  async function sendMentorMessageFloat() {
+    const input = document.getElementById('mentorChatInput');
+    if (!input || mentorChatState_Floating.isSending) return;
+    const message = input.value.trim();
+    if (!message) {
+      toast('Ask a question before sending');
+      return;
+    }
+
+    addMentorMessageFloat('user', message);
+    mentorChatState_Floating.history.push({ role: 'user', content: message });
+    input.value = '';
+    mentorChatState_Floating.isSending = true;
+    setMentorTypingFloat(true);
+
+    try {
+      const payload = { messages: mentorChatState_Floating.history.slice(-8) };
+      const response = await fetch(`${API_BASE}/mentor-chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.detail || 'Unable to reach the mentor right now.');
+      }
+      const reply = (data.reply || 'I am here whenever you need me.').trim();
+      addMentorMessageFloat('assistant', reply);
+      mentorChatState_Floating.history.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      addMentorMessageFloat('assistant', `Sorry, I hit a snag: ${err.message}`);
+    } finally {
+      setMentorTypingFloat(false);
+      mentorChatState_Floating.isSending = false;
+    }
+  }
+
+  function sendQuickPrompt(promptText) {
+    const input = document.getElementById('mentorChatInput');
+    if (!input) return;
+    input.value = promptText;
+    sendMentorMessageFloat();
+  }
+
+  function toggleMentorWidget() {
+    const widget = document.getElementById('mentorFloatingWidget');
+    if (widget) {
+      widget.classList.toggle('open');
+      if (widget.classList.contains('open') && !mentorChatState_Floating.initialized) {
+        initMentorChatFloat();
+      }
+    }
+  }
+
+  function handleMentorKeydown(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      sendMentorMessageFloat();
+    }
+  }
+
+  /* ────── KEEPING GLOBALS FOR BACKWARD COMPATIBILITY ────── */
+  function initMentorChat() {
+    if (mentorChatState.initialized) return;
+    const log = document.getElementById('mentorChatLog');
+    const input = document.getElementById('mentorChatInput');
+    if (!log || !input) return;
+    mentorChatState.initialized = true;
+    addMentorMessage('assistant', 'Namaste! I am Lakshya, your AI money mentor. Ask me anything about SIPs, FIRE, tax planning or insurance.');
+  }
+
+  function addMentorMessage(role, text) {
+    const log = document.getElementById('mentorChatLog');
+    if (!log) return;
+    const bubble = document.createElement('div');
+    bubble.className = `mentor-bubble ${role}`;
+    const lines = (text || '').split('\n');
+    lines.forEach((line, idx) => {
+      bubble.appendChild(document.createTextNode(line));
+      if (idx < lines.length - 1) {
+        bubble.appendChild(document.createElement('br'));
+      }
+    });
+    log.appendChild(bubble);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function setMentorStatus(label, variant) {
+    // Status indicator - dashboard only
+    const statusEl = document.getElementById('mentorChatStatusDash');
+    if (!statusEl) return;
+    statusEl.classList.remove('online', 'waiting', 'error');
+    statusEl.classList.add(variant || 'online');
+    const textEl = statusEl.querySelector('span');
+    if (textEl) textEl.textContent = label;
+  }
+
+  function setMentorHint(text) {
+    // Hint - dashboard only
+    const hint = document.getElementById('mentorChatHintDash');
+    if (hint) hint.textContent = text;
+  }
+
+  function setMentorTyping(isVisible) {
+    console.warn('Use setMentorTypingDash() or setMentorTypingFloat() instead');
+  }
+
+  async function sendMentorMessage() {
+    console.warn('Use sendMentorMessageDash() or sendMentorMessageFloat() instead');
+  }
+
   function showLanding() { 
-    document.getElementById('page-landing').style.display = 'block'; 
-    document.getElementById('page-app').style.display = 'none'; 
+    document.getElementById('page-landing').classList.add('active');
+    document.getElementById('page-app').classList.remove('active');
+    document.getElementById('page-landing').style.display = 'block';
+    document.getElementById('page-app').style.display = 'none';
   }
 
   function launchApp() { 
-    document.getElementById('page-landing').style.display = 'none'; 
-    document.getElementById('page-app').style.display = 'block'; 
+    document.getElementById('page-landing').classList.remove('active');
+    document.getElementById('page-app').classList.add('active');
+    document.getElementById('page-landing').style.display = 'none';
+    document.getElementById('page-app').style.display = 'block';
     populateDash(); 
   }
 
@@ -1493,11 +2061,56 @@
     if (el) el.style.display = 'block';
   }
 
-  function showDashboard() { setActiveNav('navDash'); showApp('appDash'); populateDash(); }
-  function showXRay() { setActiveNav('navXray'); showApp('appXray'); }
-  function showHealth() { setActiveNav('navHealth'); showApp('appHealth'); }
-  function showFire() { setActiveNav('navFire'); showApp('appFire'); setTimeout(() => { syncSlider(); updateFireChart(); }, 60); }
-  function showProfile() { setActiveNav('navProfile'); showApp('appProfile'); populateProfile(); }
+  function toggleFloatingButton(show) {
+    const btn = document.getElementById('mentorFloatingBtn');
+    if (btn) {
+      if (show) {
+        btn.style.display = 'flex';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
+  }
+
+  function showDashboard() { 
+    setActiveNav('navDash'); 
+    showApp('appDash'); 
+    populateDash();
+    toggleFloatingButton(false);
+    // Close floating widget if open
+    const widget = document.getElementById('mentorFloatingWidget');
+    if (widget) widget.classList.remove('open');
+  }
+  
+  function showXRay() { 
+    setActiveNav('navXray'); 
+    showApp('appXray');
+    toggleFloatingButton(true);
+    if (!mentorChatState_Floating.initialized) initMentorChatFloat();
+  }
+  
+  function showHealth() { 
+    setActiveNav('navHealth'); 
+    showApp('appHealth');
+    toggleFloatingButton(true);
+    if (!mentorChatState_Floating.initialized) initMentorChatFloat();
+  }
+  
+  function showFire() { 
+    setActiveNav('navFire'); 
+    showApp('appFire'); 
+    toggleFloatingButton(true);
+    if (!mentorChatState_Floating.initialized) initMentorChatFloat();
+    setTimeout(() => { syncSlider(); updateFireChart(); }, 60); 
+  }
+  
+  function showProfile() { 
+    setActiveNav('navProfile'); 
+    showApp('appProfile'); 
+    populateProfile();
+    toggleFloatingButton(true);
+    if (!mentorChatState_Floating.initialized) initMentorChatFloat();
+  }
 
   function doSignup() {
     const name = document.getElementById('signupName').value.trim();
@@ -1803,18 +2416,40 @@
     }
 
     // Calculate and render milestones
-    if (fireChartData && fireChartData.medianData) {
-      const milestones = calculateMilestones(fireChartData.medianData, fireChartData.labels, target, age, startYear);
+    if (medData && labels) {
+      const milestones = calculateMilestones(medData, labels, target, age, startYear);
       renderMilestones(milestones, target);
     }
 
     // Hover tooltip
-    canvas.onmousemove = (e) => {
+    // Remove old listeners if they exist
+    if (canvas._hoverHandler) {
+      canvas.removeEventListener('mousemove', canvas._hoverHandler);
+      canvas.removeEventListener('mouseleave', canvas._hoverLeave);
+    }
+
+    // Add new listeners with proper coordinate handling
+    canvas._hoverHandler = (e) => {
+      if (!fireChartCtx || !fireChartCtx.medData) return;
       const rect = canvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
+      const mx = (e.clientX - rect.left);
+      console.log('Hover at:', mx, 'fireChartCtx exists:', !!fireChartCtx, 'medData exists:', !!fireChartCtx.medData);
       drawFireChart(fireChartCtx, mx);
     };
-    canvas.onmouseleave = () => drawFireChart(fireChartCtx);
+    
+    canvas._hoverLeave = () => {
+      if (fireChartCtx && fireChartCtx.medData) drawFireChart(fireChartCtx);
+    };
+    
+    canvas.addEventListener('mousemove', canvas._hoverHandler);
+    canvas.addEventListener('mouseleave', canvas._hoverLeave);
+    canvas.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const mx = (touch.clientX - rect.left);
+      drawFireChart(fireChartCtx, mx);
+    });
+    canvas.addEventListener('touchend', () => drawFireChart(fireChartCtx));
   }
 
   function calculateMilestones(medianData, labels, target, age, startYear) {
@@ -2056,7 +2691,18 @@
         ctx.strokeStyle = 'rgba(201,150,59,0.35)';
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.roundRect(ttX, ttY, ttW, ttH, 8);
+        // Draw rounded rectangle manually (fallback for older browsers)
+        const r = 8;
+        ctx.moveTo(ttX + r, ttY);
+        ctx.lineTo(ttX + ttW - r, ttY);
+        ctx.quadraticCurveTo(ttX + ttW, ttY, ttX + ttW, ttY + r);
+        ctx.lineTo(ttX + ttW, ttY + ttH - r);
+        ctx.quadraticCurveTo(ttX + ttW, ttY + ttH, ttX + ttW - r, ttY + ttH);
+        ctx.lineTo(ttX + r, ttY + ttH);
+        ctx.quadraticCurveTo(ttX, ttY + ttH, ttX, ttY + ttH - r);
+        ctx.lineTo(ttX, ttY + r);
+        ctx.quadraticCurveTo(ttX, ttY, ttX + r, ttY);
+        ctx.closePath();
         ctx.fill(); ctx.stroke();
 
         ctx.font = '600 11px DM Sans';
@@ -2131,6 +2777,38 @@
 </script>
 </div>
 
+  <!-- Floating Mentor Chat Widget -->
+  <button class="mentor-floating-btn" id="mentorFloatingBtn" onclick="toggleMentorWidget()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </button>
+
+  <div class="mentor-floating-widget" id="mentorFloatingWidget">
+    <div class="mentor-widget-header">
+      <div class="mentor-widget-title">Lakshya Mentor</div>
+      <button class="mentor-widget-close" onclick="toggleMentorWidget()">✕</button>
+    </div>
+
+    <div class="mentor-quick-prompts" id="mentorQuickPromptsWidget">
+      <button class="mentor-quick-btn" onclick="sendQuickPrompt('Where am I leaking fees in my SIPs?')">Fee leaks</button>
+      <button class="mentor-quick-btn" onclick="sendQuickPrompt('How much emergency fund do I need?')">Emergency fund</button>
+      <button class="mentor-quick-btn" onclick="sendQuickPrompt('Is my equity debt mix balanced?')">Allocation check</button>
+      <button class="mentor-quick-btn" onclick="sendQuickPrompt('How to retire at 50?')">FIRE plan</button>
+    </div>
+
+    <div class="mentor-chat-log" id="mentorChatLog"></div>
+
+    <div class="mentor-chat-input">
+      <textarea id="mentorChatInput" placeholder="Ask about money, SIPs, tax or FIRE..." onkeydown="handleMentorKeydown(event)"></textarea>
+      <button onclick="sendMentorMessageFloat()" title="Send message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
 <script>
   // Toast notification
   const toastEl = document.getElementById('toast');
@@ -2139,6 +2817,24 @@
       toastEl.textContent = msg;
       toastEl.classList.add('show');
       setTimeout(() => toastEl.classList.remove('show'), 2000);
+    }
+  }
+
+  function toggleMentorWidget() {
+    const widget = document.getElementById('mentorFloatingWidget');
+    const btn = document.getElementById('mentorFloatingBtn');
+    if (widget) {
+      widget.classList.toggle('open');
+      if (widget.classList.contains('open') && !mentorChatState.initialized) {
+        initMentorChat();
+      }
+    }
+  }
+
+  function handleMentorKeydown(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      sendMentorMessage();
     }
   }
 </script>

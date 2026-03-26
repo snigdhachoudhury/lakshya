@@ -18,7 +18,7 @@ class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     with socketserver.TCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
-        print(f"✨ Lakshya Frontend Server running on http://localhost:{PORT}")
-        print(f"📁 Serving from: {DIRECTORY}")
-        print("Press Ctrl+C to stop...")
+        print(f"[*] Lakshya Frontend Server running on http://localhost:{PORT}")
+        print(f"[+] Serving from: {DIRECTORY}")
+        print("[*] Press Ctrl+C to stop...")
         httpd.serve_forever()
